@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Elysian Sweets"
+description = "A polished restaurant website for Elysian Sweets in Jhang, Pakistan, showcasing desserts, savory favorites, customer reviews, location details, and pickup or delivery actions."
+version = "1.0.0"
+id = "artifacts/elysian-sweets"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21813
+
+[services.development]
+run = "pnpm --filter @workspace/elysian-sweets run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/elysian-sweets", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/elysian-sweets/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21813"
+BASE_PATH = "/"
