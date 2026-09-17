@@ -23,16 +23,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Build Frontend
         run: |
           cd artifacts/elysian-sweets
-          npm install
-          PORT=5000 npx vite build --outDir '../../dist'
+          PORT=5000 pnpm run build --outDir '../../dist'
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
